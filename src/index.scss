@@ -5,23 +5,28 @@ body {
   height: 100%;
   background-color: #1A1A1D;
 }
+$font-color: #C3073F;
+$bg-color: #1A1A1D;
+$border-color: #950740;
+$disabled-bg-color: #4e4e50;
 #root {
   height: 100%;
   width: 100%;
-  #app {
+  .main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1A1A1D;
-    border: 5px solid #950740;
+    background-color: $bg-color;
+    border: 5px solid $border-color;
     border-radius: 5px;
-    height: 80%;
+    height: 50%;
     width: 60%;
     margin: 0 auto;
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
-    color: #C3073F;
+    color:$font-color;
     font-style: italic;
+    position: relative;
     .name-editor {
       margin: auto 0;
   
@@ -34,6 +39,53 @@ body {
           margin-right: 5px;
         }
       }
+    }
+
+    .editors {
+      display: flex;
+      margin-bottom: 5px;
+      width: 300px;
+      margin-top: 5px;
+      .editor {
+        color: $font-color;
+        border: 1px solid $border-color;
+        margin-left: 2px;
+        padding: 2px;
+        width: 150px;
+        text-align: center;
+        border-radius: 5px;
+        cursor: pointer;
+        &.enable {
+          background-color: $border-color;
+          color: #fff;
+        }
+        &.disabled {
+          background-color: $disabled-bg-color;
+          color: gray;
+          border: $disabled-bg-color;
+        }
+
+      }
+    }
+    .active {
+      opacity: 1;
+      transition: opacity 1s;
+      visibility: visible;
+    }
+    .in-active {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .active,
+    .in-active {
+      position: absolute;
+      top: 50px;
+      width: 300px;
+
+      border: 1px solid;
+      border-radius: 5px;
+      padding: 5px;
     }
   }
 }
