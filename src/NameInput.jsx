@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "antd";
 class InputEditor extends React.Component {
   handleChange = e => {
@@ -19,42 +19,34 @@ class InputEditor extends React.Component {
     );
   }
 }
-export default class NameInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      docWidth: document.body.clientWidth
-    };
+const NameInput = props => {
+  const [ firstName, setFirstName ] = useState("");
+  const [ lastName, setLastName ] = useState("");
+  const [ docWidth, setDocWidth ] = useState(document.body.clientWidth);
+  const onResize = () => {
+    setDocWidth(document.body.clientWidth)
   }
-  render() {
-    return (
-      <div className="name-editor">
-        <InputEditor
-          addonBefore="First Name: "
-          onChange={v => this.setState({ firstName: v })}
-        />
-        <InputEditor
-          addonBefore="Last Name: "
-          onChange={v => this.setState({ lastName: v })}
-        />
-        <div>Doc Width: {this.state.docWidth} px</div>
-      </div>
-    );
-  }
-  componentDidUpdate() {
-    window.document.title = this.state.firstName + " " + this.state.lastName;
-  }
-  documentWidthChange = () => {
-    this.setState({
-      docWidth: document.body.clientWidth
-    });
-  };
-  componentDidMount() {
-    window.addEventListener("resize", this.documentWidthChange);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.documentWidthChange);
-  }
-}
+  useEffect(() => {
+    window.document.title = firstName + " " + lastName;
+  });
+  useEffect(() => {
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    }
+  });
+  return (
+    <div className="name-editor">
+      <InputEditor
+        addonBefore="First Name: "
+        onChange={v => setFirstName(v)}
+      />
+      <InputEditor
+        addonBefore="Last Name: "
+        onChange={v => setLastName(v)}
+      />
+      <div>Doc Width: {docWidth} px</div>
+    </div>
+  );
+};
+export default NameInput;

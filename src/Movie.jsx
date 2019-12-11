@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./movies.scss";
 
 const mockRequestResource = (url, time, resolve, reject) => {
@@ -16,6 +16,23 @@ const fetchMovie = (url, resolve) => {
     res.json().then(resolve);
   });
 };
+
+const useImageFetcher = props => {
+  const [url, setUrl] = useState(props.src);
+  const [name, setName] = useState(props.name);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    setUrl(props.src);
+    setLoaded(false);
+    fetchImg(props.src, () => {
+      setLoaded(true);
+    });
+  }, [props.src]);
+  useEffect(() => {
+    setName(props.name);
+  }, [props.name]);
+  return {url, loaded, name};
+};
 class BouncingLoader extends React.Component {
   render() {
     return (
@@ -27,153 +44,72 @@ class BouncingLoader extends React.Component {
     );
   }
 }
-class Image extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      url: props.src,
-      name: props.name,
-      loaded: false
-    };
-  }
-  render() {
-    if (this.state.loaded) {
-      return (
-        <img
-          src={this.state.url}
-          className="movie-image"
-          alt={this.state.name}
-        />
-      );
-    }
+function Image(props) {
+  const { url, name, loaded } = useImageFetcher(props);
+  if (loaded) {
+    return <img src={url} className="movie-image" alt={name} />;
+  } else {
     return <BouncingLoader />;
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.src !== this.props.src) {
-      this.setState(
-        {
-          url: this.props.src,
-          loaded: false
-        },
-        () => {
-          fetchImg(this.state.url, () => {
-            this.setState({
-              loaded: true
-            });
-          });
-        }
-      );
-    }
-    if (prevProps.name !== this.props.name) {
-      this.setState({
-        name: this.props.name
-      });
-    }
-  }
-  componentDidMount() {
-    fetchImg(this.state.url, img => {
-      this.setState({
-        loaded: true
-      });
-    });
-  }
 }
-class Description extends React.Component {
-  render() {
-    return (
-      <>
-        <div className="movie-title">{this.props.title}</div>
-        <p className="movie-description">{this.props.content}</p>
-      </>
-    );
-  }
+function Description(props) {
+  return (
+    <>
+      <div className="movie-title">{props.title}</div>
+      <p className="movie-description">{props.content}</p>
+    </>
+  );
 }
-class Navigator extends React.Component {
-  constructor(props) {
-    super(props);
-    this.length = props.length || 0;
-    this.state = {
-      previous: -1,
-      current: 0,
-      loaded: false
-    };
+function Navigator({length, onChange}) {
+  const [ previous, setPrevious ] = useState(-1);
+  const [ current, setCurrent ] = useState(0);
+  const jumpToPrevious = () => {
+    setPrevious(current - 2);
+    setCurrent(current - 1);
   }
-  jumpToPrevious = () => {
-    this.setState(
+  const jumpToNext= () => {
+    setPrevious(current);
+    setCurrent(current + 1);
+  }
+  useEffect(() => {
+    onChange(current)
+  })
+  return (
+    <div className="navigator-container">
+      {previous > -1 && (
+        <button onClick={jumpToPrevious}>{"<-- Previous"}</button>
+      )}
       {
-        current: this.state.current - 1,
-        previous: this.state - 2
-      },
-      () => {
-        this.props.onChange(this.state.current);
+        <button
+          disabled={current === length - 1}
+          onClick={jumpToNext}
+        >
+          {"Next --->"}
+        </button>
       }
-    );
-  };
-  jumpToNext = () => {
-    this.setState(
-      {
-        previous: this.state.current,
-        current: this.state.current + 1
-      },
-      () => {
-        this.props.onChange(this.state.current);
-      }
-    );
-  };
-  render() {
-    return (
-      <div className="navigator-container">
-        {this.state.previous > -1 && (
-          <button onClick={this.jumpToPrevious}>{"<-- Previous"}</button>
-        )}
-        {
-          <button
-            disabled={this.state.current === this.length - 1}
-            onClick={this.jumpToNext}
-          >
-            {"Next --->"}
-          </button>
-        }
-      </div>
-    );
-  }
+    </div>
+  );
 }
-class Movie extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      articleId: 0,
-      movies: []
-    };
-  }
-  switchMovie = idx => {
-    this.setState({
-      articleId: idx
-    });
-  };
-  render() {
-    if (this.state.movies.length) {
-      const movieInfo = this.state.movies[this.state.articleId];
-      return (
-        <div className="movie-review-container">
-          <Image src={movieInfo.image} name={movieInfo.name} />
-          <Description content={movieInfo.description} title={movieInfo.name} />
-          <Navigator
-            onChange={this.switchMovie}
-            length={this.state.movies.length}
-          />
-        </div>
-      );
-    }
-    return <BouncingLoader />;
-  }
-  componentDidMount() {
+function Movie() {
+  const [articleIdx, setArticleIdx] = useState(0);
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
     fetchMovie("data/moviesReview.json", data => {
       const movies = data.movies;
-      this.setState({
-        movies
-      });
+      setMovies(movies);
     });
+  });
+  if (movies.length) {
+    const movieInfo = movies[articleIdx];
+    return (
+      <div className="movie-review-container">
+        <Image src={movieInfo.image} name={movieInfo.name} />
+        <Description content={movieInfo.description} title={movieInfo.name} />
+        <Navigator onChange={setArticleIdx} length={movies.length} />
+      </div>
+    );
+  } else {
+    return <BouncingLoader />;
   }
 }
 export default Movie;
