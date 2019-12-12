@@ -1,12 +1,13 @@
 import React from "react";
 import "./index.scss";
 import NameInput from './NameInput';
-import Counter from './Counter';
+import Movie from './Movie';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0
+      index: 1
     };
   }
   onSwitchEditor = e => {
@@ -31,7 +32,7 @@ class App extends React.Component {
           {<NameInput />}
         </div>
         <div className={this.state.index === 1 ? "active" : "in-active"}>
-          {<Counter />}
+          {<Movie />}
         </div>
       </div>
     );

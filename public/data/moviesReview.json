@@ -1,0 +1,9 @@
+{
+  "movies": [
+    {
+      "name": "点球成金 Moneyball",
+      "image": "data/img/money_ball.jpg",
+      "description": "在美国职业棒球大联盟MLB中，比利（布拉德•皮特 Brad Pitt 饰）所属的奥克兰运动家队败给了财大气粗的纽约扬基队，这让他深受打击。雪上加霜的是三名主力纷纷被重金挖走，未来的赛季前途渺茫。在管理..."
+    }
+  ]
+}
