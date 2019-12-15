@@ -19,8 +19,8 @@ $disabled-bg-color: #4e4e50;
     background-color: $bg-color;
     border: 5px solid $border-color;
     border-radius: 5px;
-    height: 50%;
-    width: 60%;
+    height: 100%;
+    width: 80%;
     margin: 0 auto;
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
@@ -81,7 +81,7 @@ $disabled-bg-color: #4e4e50;
     .in-active {
       position: absolute;
       top: 50px;
-      width: 300px;
+      width: 350px;
 
       border: 1px solid;
       border-radius: 5px;
