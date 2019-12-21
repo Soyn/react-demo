@@ -19,7 +19,7 @@ const fetchMovie = (url, resolve) => {
 class BouncingLoader extends React.Component {
   render() {
     return (
-      <div class="bouncing-loader">
+      <div className="bouncing-loader">
         <div></div>
         <div></div>
         <div></div>
@@ -57,7 +57,6 @@ class Image extends React.Component {
         },
         () => {
           fetchImg(this.state.url, () => {
-            console.log(this.state.url);
             this.setState({
               loaded: true
             });
@@ -155,7 +154,6 @@ class Movie extends React.Component {
   render() {
     if (this.state.movies.length) {
       const movieInfo = this.state.movies[this.state.articleId];
-      console.log("---> ", movieInfo);
       return (
         <div className="movie-review-container">
           <Image src={movieInfo.image} name={movieInfo.name} />

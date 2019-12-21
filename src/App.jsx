@@ -2,12 +2,12 @@ import React from "react";
 import "./index.scss";
 import NameInput from './NameInput';
 import Movie from './Movie';
-
+import Counter from './Counter';
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 1
+      index: 0,
     };
   }
   onSwitchEditor = e => {
@@ -27,11 +27,17 @@ class App extends React.Component {
           <div className={`editor ${this.state.index === 1 ? 'enable' : 'disabled'}`} index={1}>
             Use Counter
           </div>
+          <div className={`editor ${this.state.index === 2 ? 'enable' : 'disabled'}`} index={2}>
+            Use Movies
+          </div>
         </div>
         <div className={this.state.index === 0 ? "active" : "in-active"}>
           {<NameInput />}
         </div>
         <div className={this.state.index === 1 ? "active" : "in-active"}>
+          {<Counter />}
+        </div>
+        <div className={this.state.index === 2 ? "active" : "in-active"}>
           {<Movie />}
         </div>
       </div>

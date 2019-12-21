@@ -19,8 +19,8 @@ $disabled-bg-color: #4e4e50;
     background-color: $bg-color;
     border: 5px solid $border-color;
     border-radius: 5px;
-    height: 100%;
-    width: 80%;
+    height: 80%;
+    width: 70%;
     margin: 0 auto;
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
@@ -71,6 +71,7 @@ $disabled-bg-color: #4e4e50;
       opacity: 1;
       transition: opacity 1s;
       visibility: visible;
+      margin-top: 8px;
     }
     .in-active {
       opacity: 0;
@@ -81,7 +82,7 @@ $disabled-bg-color: #4e4e50;
     .in-active {
       position: absolute;
       top: 50px;
-      width: 350px;
+      width: 50%;
 
       border: 1px solid;
       border-radius: 5px;
