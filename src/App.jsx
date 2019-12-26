@@ -1,47 +1,48 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import classnames from "classnames";
 import "./index.scss";
-import NameInput from './NameInput';
-import Movie from './Movie';
-import Counter from './Counter';
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      index: 0,
-    };
+
+const sizeList = ["small", "normal", "large"];
+const { useState } = React;
+function Cell(props) {
+  const [size, changeSize] = useState(props.size || 0);
+  const cellClass = classnames("cell", sizeList[size]);
+  return <div className={cellClass} />;
+}
+
+function Rows({ rowCount, colCount, customCss }) {
+  const rows = [];
+  
+  for (let i = 0; i < rowCount; i += 1) {
+    const cells = [];
+    for (let j = 0; j < colCount; j += 1) {
+      cells.push(<Cell size={1} />);
+    }
+    rows.push(<div className='row'>{cells}</div>);
   }
-  onSwitchEditor = e => {
-    const target = e.target;
-    const idx = target.getAttribute("index");
-    this.setState({
-      index: idx > -1 ? +idx : 0
-    });
-  };
+  return <div className="rows">{rows}</div>;
+}
+function RowHeader() {
+  return (<div className='row-header'>
+    <div className="parent"></div>
+    <div className="children">
+      <Cell size={1} />
+      <Cell size={1} />
+      <Cell size={1} />
+      <Cell size={1} />
+    </div>
+  </div>);
+}
+export default class App extends React.Component {
   render() {
-    return (
-      <div className="main-container">
-        <div className="editors" onClick={this.onSwitchEditor}>
-          <div className={`editor ${this.state.index === 0 ? 'enable' : 'disabled'}`} index={0}>
-            Use Name Editor
-          </div>
-          <div className={`editor ${this.state.index === 1 ? 'enable' : 'disabled'}`} index={1}>
-            Use Counter
-          </div>
-          <div className={`editor ${this.state.index === 2 ? 'enable' : 'disabled'}`} index={2}>
-            Use Movies
-          </div>
-        </div>
-        <div className={this.state.index === 0 ? "active" : "in-active"}>
-          {<NameInput />}
-        </div>
-        <div className={this.state.index === 1 ? "active" : "in-active"}>
-          {<Counter />}
-        </div>
-        <div className={this.state.index === 2 ? "active" : "in-active"}>
-          {<Movie />}
-        </div>
-      </div>
-    );
+    return (<>
+    <Rows rowCount={1} colCount={8} />
+    <RowHeader />
+    <RowHeader />
+    <RowHeader />
+    <RowHeader />
+    </>);
   }
 }
-export default App;
+ReactDOM.render(<App />, document.getElementById("root"));

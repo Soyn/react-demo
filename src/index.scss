@@ -1,92 +1,50 @@
-html {
-  height: 100%;
+.cell {
+  background-color: red;
+  border: 1px solid;
+  box-sizing: border-box;
 }
-body {
-  height: 100%;
-  background-color: #1A1A1D;
+.normal {
+  width: 80px;
+  height: 15px;
 }
-$font-color: #C3073F;
-$bg-color: #1A1A1D;
-$border-color: #950740;
-$disabled-bg-color: #4e4e50;
-#root {
-  height: 100%;
-  width: 100%;
-  .main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: $bg-color;
-    border: 5px solid $border-color;
-    border-radius: 5px;
-    height: 80%;
-    width: 70%;
-    margin: 0 auto;
-    font-size: 18px;
-    font-family: 'Roboto', sans-serif;
-    color:$font-color;
-    font-style: italic;
-    position: relative;
-    .name-editor {
-      margin: auto 0;
+.small {
+  width: 5px;
+  height: 5px;
+}
+
+.large {
+  width: 30px;
+  height: 20px
+}
+
+.corner {
+  display: flex;
   
-      .input-container {
-        margin-top: 5px;
-        width: 300px;
-        height: 50px;
-  
-        .ant-input-group-addon {
-          margin-right: 5px;
-        }
-      }
-    }
+  .normal {
+    border: 1px solid;
+  }
+}
 
-    .editors {
-      display: flex;
-      margin-bottom: 5px;
-      width: 300px;
-      margin-top: 5px;
-      .editor {
-        color: $font-color;
-        border: 1px solid $border-color;
-        margin-left: 2px;
-        padding: 2px;
-        width: 150px;
-        text-align: center;
-        border-radius: 5px;
-        cursor: pointer;
-        &.enable {
-          background-color: $border-color;
-          color: #fff;
-        }
-        &.disabled {
-          background-color: $disabled-bg-color;
-          color: gray;
-          border: $disabled-bg-color;
-        }
+.row {
+  display: flex;
+  .cell {
+    border: 1px solid;
+    border-left: 0;
+  }
+  .cell:nth-child(1) {
+    border-left: 1px solid;
+  }
+}
 
-      }
-    }
-    .active {
-      opacity: 1;
-      transition: opacity 1s;
-      visibility: visible;
-      margin-top: 8px;
-    }
-    .in-active {
-      opacity: 0;
-      visibility: hidden;
-    }
+.row-header {
+  width: 160px;
+  display: flex;
 
-    .active,
-    .in-active {
-      position: absolute;
-      top: 50px;
-      width: 50%;
-
-      border: 1px solid;
-      border-radius: 5px;
-      padding: 5px;
-    }
+  .parent {
+    width: 78px;
+    border: 1px solid;
+    height: 60px;
+    box-sizing: border-box;
+    background-color: blue;
   }
 }
