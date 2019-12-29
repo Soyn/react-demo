@@ -28,13 +28,13 @@ const NameInput = props => {
   }
   useEffect(() => {
     window.document.title = firstName + " " + lastName;
-  });
+  }, [firstName, lastName]);
   useEffect(() => {
     window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("resize", onResize);
     }
-  });
+  }, []);
   return (
     <div className="name-editor">
       <InputEditor
